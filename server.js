@@ -22,7 +22,7 @@ app.post('/api/chat', async (req, res) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'deepseek-r1:7b',
+                model: 'llama3.1:8b',
                 prompt: message,
                 stream: false
             })

@@ -6,7 +6,13 @@ const messagesContainer = document.getElementById('messagesContainer');
 function createMessageElement(content, isUser) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-    messageDiv.textContent = content;
+    
+    if (isUser) {
+        messageDiv.textContent = content;
+    } else {
+        // Use innerHTML for bot messages to render formatted text
+        messageDiv.innerHTML = formatAIResponse(content);
+    }
     return messageDiv;
 }
 
@@ -19,7 +25,7 @@ async function callOllama(prompt) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'deepseek-r1:7b',
+                model: 'llama3.1:8b',
                 prompt: prompt,
                 stream: false
             })
@@ -91,9 +97,6 @@ class ChatBot {
         this.addMessage(message, 'user');
         this.chatInput.value = '';
 
-        // Show typing indicator
-        this.showTypingIndicator();
-
         try {
             const response = await fetch('http://localhost:3000/api/chat', {
                 method: 'POST',
@@ -105,24 +108,53 @@ class ChatBot {
 
             const data = await response.json();
             
-            // Hide typing indicator
-            this.hideTypingIndicator();
-            
-            // Add bot response to chat
-            this.addMessage(data.response, 'bot');
+            // Add bot response to chat with typing effect
+            await this.addMessage(data.response, 'bot');
         } catch (error) {
             console.error('Error:', error);
-            this.hideTypingIndicator();
-            this.addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+            await this.addMessage('Sorry, I encountered an error. Please try again.', 'bot');
         }
     }
 
-    addMessage(text, sender) {
+    async addMessage(text, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message', `${sender}-message`);
-        messageDiv.textContent = text;
-        this.messagesContainer.appendChild(messageDiv);
+        
+        if (sender === 'bot') {
+            // For bot messages, use the formatting
+            messageDiv.innerHTML = '';
+            this.messagesContainer.appendChild(messageDiv);
+            await this.typeText(messageDiv, formatAIResponse(text));
+        } else {
+            // For user messages, show immediately
+            messageDiv.textContent = text;
+            this.messagesContainer.appendChild(messageDiv);
+        }
+        
         this.scrollToBottom();
+    }
+
+    async typeText(element, text) {
+        const htmlContent = text;
+        element.innerHTML = '';
+        
+        // Create a temporary div to parse HTML
+        const temp = document.createElement('div');
+        temp.innerHTML = htmlContent;
+        
+        for (const node of temp.childNodes) {
+            const newElement = node.cloneNode(true);
+            element.appendChild(newElement);
+            
+            if (node.textContent) {
+                newElement.textContent = '';
+                for (const char of node.textContent) {
+                    newElement.textContent += char;
+                    await new Promise(resolve => setTimeout(resolve, 20)); // Adjust speed here
+                    this.scrollToBottom();
+                }
+            }
+        }
     }
 
     showTypingIndicator() {
@@ -150,4 +182,23 @@ class ChatBot {
 // Initialize the chat bot when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     new ChatBot();
-}); 
+});
+
+function formatAIResponse(text) {
+    // Handle bold text (**text**)
+    let formatted = text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Convert asterisk lists to bullet points with proper indentation
+        .replace(/^\* (.*?)$/gm, '<div class="formatted-list">• $1</div>')
+        // Convert paragraphs (double newlines)
+        .replace(/\n\n/g, '</div><div class="formatted-paragraph">')
+        // Convert single newlines
+        .replace(/\n/g, '<br>');
+
+    // Wrap in a div if not already wrapped
+    if (!formatted.startsWith('<div')) {
+        formatted = `<div class="formatted-paragraph">${formatted}</div>`;
+    }
+
+    return formatted;
+} 
