@@ -77,13 +77,12 @@ h1 {
     font-weight: 600;
     padding: 0.8rem 1.5rem;
     border-radius: 8px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     background: #ffffff;
 }
 
 .github-link:hover {
     background: #000000;
-    transform: translateY(-5px);
     color: #ffffff;
 }
 
@@ -181,7 +180,7 @@ h1 {
 
 .send-button {
     position: absolute;
-    right: 3px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
@@ -274,6 +273,9 @@ h1 {
     align-self: flex-start;
     line-height: 1.5;
     white-space: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
 }
 
 .bot-message strong {
@@ -282,11 +284,12 @@ h1 {
 }
 
 .formatted-list {
-    margin: 0.4rem 0;
+    margin: 0;
     padding-left: 0.5rem;
     display: flex;
     align-items: flex-start;
     gap: 0.5rem;
+    line-height: 1.5;
 }
 
 .typing-indicator {
