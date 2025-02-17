@@ -182,6 +182,7 @@ class ChatBot {
 // Initialize the chat bot when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     new ChatBot();
+    typeModelInfo(); // Start the typing effect
 });
 
 function formatAIResponse(text) {
@@ -201,4 +202,28 @@ function formatAIResponse(text) {
     }
 
     return formatted;
+}
+
+function typeModelInfo() {
+    const modelInfo = document.querySelector('.model-info');
+    const text = "The model using is Llama 3.1";
+    modelInfo.textContent = "\u00A0";  // Add non-breaking space as placeholder
+    let index = 0;
+    modelInfo.classList.add('typing-effect');
+
+    function typeChar() {
+        modelInfo.textContent = text.substring(0, index) || "\u00A0";  // Keep space if empty
+        index++;
+        
+        if (index > text.length) {
+            setTimeout(() => {
+                index = 0;
+                typeChar();
+            }, 5000);
+        } else {
+            setTimeout(typeChar, 100);
+        }
+    }
+
+    typeChar();
 } 

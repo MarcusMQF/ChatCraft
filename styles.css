@@ -78,12 +78,17 @@ h1 {
     padding: 0.8rem 1.5rem;
     border-radius: 8px;
     transition: all 0.3s ease;
-    background: #f5f5f5;
+    background: #ffffff;
 }
 
 .github-link:hover {
-    background: #ebebeb;
+    background: #000000;
     transform: translateY(-5px);
+    color: #ffffff;
+}
+
+.github-link:hover .github-icon {
+    content: url('images/github2.png');
 }
 
 .github-icon {
@@ -159,30 +164,24 @@ h1 {
 .input-wrapper {
     position: relative;
     width: 100%;
-    margin-top: 1.5rem;
+    max-width: 600px;
+    margin: 2rem auto 0;
 }
 
 .chat-input {
     width: 100%;
-    padding: 1.2rem 1.5rem;
-    padding-right: 4rem;
+    padding: 1.2rem 1rem; 
+    padding-right: 5rem;
     border: none;
-    border-radius: 12px;
+    border-radius: 12px; 
     font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--input-bg);
     outline: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.chat-input:focus {
-    background-color: #ffffff;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .send-button {
     position: absolute;
-    right: 18px;
+    right: 3px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
@@ -208,18 +207,32 @@ h1 {
 .model-info {
     color: var(--primary-bg);
     font-size: 0.875rem;
-    margin-top: 0.5rem;
+    margin-top: 1.5rem;
     text-align: center;
+    min-height: 1.2em;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
 }
 
 .messages-container {
     flex-grow: 1;
     overflow-y: auto;
     margin-bottom: 1rem;
+    margin-right: -1rem;
+    padding-right: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    /* Modern scrollbar styling */
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
@@ -227,16 +240,19 @@ h1 {
 /* For Webkit browsers (Chrome, Safari, etc.) */
 .messages-container::-webkit-scrollbar {
     width: 8px;
+    position: absolute;
+    right: 0;
 }
 
 .messages-container::-webkit-scrollbar-track {
     background: transparent;
+    margin: 1rem 0;
 }
 
 .messages-container::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 1);
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 20px;
-    border: transparent;
+    border: 2px solid var(--secondary-bg);
 }
 
 .message {
