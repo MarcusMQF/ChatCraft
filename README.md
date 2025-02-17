@@ -6,7 +6,7 @@
 
 Welcome to **ChatCraft**, a sleek and interactive AI chatbot interface built with **Superflex**! It combines modern design principles with smooth animations to create an engaging user experience.
 
-## Key Features:
+## 🗝️ Key Features
 
 - **Dynamic Chat Interface**: A responsive and interactive chat window.
 - **Superflex-Powered UI**: Built entirely using Superflex, with no manual HTML or CSS.
