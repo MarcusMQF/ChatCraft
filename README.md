@@ -39,6 +39,35 @@ ChatCraft is a perfect example of how Superflex can revolutionize frontend devel
 - Focus on creating a delightful user experience.
 - Integrated with AI-Powered Chatbot Functionality
 
+## 🎨 Design & Development Process
+
+1. **Initial Design in Figma**
+   - Created the chat interface mockup in Figma
+![Figma Design](demo/design.png)
+
+2. **Superflex Implementation**
+   - Used Superflex's intuitive interface to translate Figma designs
+![Design & Development Process](demo/superflex.png)
+
+3. **Responsive Design Approach**
+   - Implemented fluid layouts using Superflex
+   - Set max-width constraints for optimal readability
+   - Used relative units for consistent spacing
+   - Ensured mobile-friendly interface
+
+4. **Animation Integration**
+   - Added smooth transitions:
+     - Send button rotation
+     - Message appearance
+     - GitHub button hover effect
+     - Model info typing animation
+
+5. **Design System**
+   - Maintained consistent spacing (1rem base unit)
+   - Used CSS variables for colors and themes
+   - Implemented reusable components
+   - Standardized border-radius across elements
+
 ## ✨ Getting Started
 
 To run ChatCraft locally, follow these steps:
